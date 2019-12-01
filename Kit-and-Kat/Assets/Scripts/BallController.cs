@@ -1,11 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
     [SerializeField] float mKickForce = 10f;
+    [SerializeField] float mHealth = 100f;
+    [SerializeField] float mHoldingDamage = 1.5f;
+    [SerializeField] float mMovingDamage = 1.5f;
     private Rigidbody2D rb;
+    private bool isHeldByCat = false;
+    private bool isMoving = false;
+    private bool isKicked = false;
 
     void Start()
     {
@@ -15,9 +22,49 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Damage();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(Vector2.up * mKickForce, ForceMode2D.Impulse);
+            Kick();
         }
+        if (isKicked)
+        {
+            if (rb.velocity.y <= 0)
+            {
+                isKicked = false;
+                Physics2D.IgnoreLayerCollision(8, 9, false);
+            }
+        }
+        // TODO: remove
+        rb.AddForce(Vector2.right * 5 * Input.GetAxis("Horizontal"));
+    }
+
+    private void Damage()
+    {
+        if (mHealth > 0)
+        {
+            if (isHeldByCat)
+            {
+                mHealth -= mHoldingDamage * Time.deltaTime;
+            }
+
+            if (isMoving)
+            {
+                mHealth -= mMovingDamage * Time.deltaTime;
+            }
+
+            if (!isMoving && !isHeldByCat)
+            {
+                mHealth -= Time.deltaTime;
+            }
+        }
+    }
+
+    private void Kick()
+    {
+        if (isKicked) return;
+        Physics2D.IgnoreLayerCollision(8, 9);
+        isKicked = true;
+        rb.AddForce(Vector2.up * mKickForce, ForceMode2D.Impulse);
     }
 }
