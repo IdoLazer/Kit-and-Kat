@@ -36,7 +36,7 @@ public class BallController : MonoBehaviour
             }
         }
         // TODO: remove
-        rb.AddForce(Vector2.right * 5 * Input.GetAxis("Horizontal"));
+        //rb.AddForce(Vector2.right * 5 * Input.GetAxis("Horizontal"));
     }
 
     private void Damage()

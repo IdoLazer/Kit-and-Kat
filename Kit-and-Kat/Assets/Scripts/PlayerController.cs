@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public static bool IsHoldingBall = false;
     
     
-    readonly float gravity = -9.1f;
+    readonly float gravity = -9.8f;
     private float ground_Y = -2.74f; //should be 0 in the real game
     private bool isGrounded = true;
     private float velocity_Y;
@@ -83,30 +83,47 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // When colliding with obstacles calculates the new angle of the motion
-    public void OnCollisionEnter2D(Collision2D other)
-    {
-        isGrounded = true;
-        velocity_Y = 0; // do i need this?
-        mPlayer.rotation = other.transform.rotation;
-        Debug.Log("Touched an obstacle!! " + mPlayer.rotation.z);
-    }
-    
-    // When stop colliding with obstacles, returns to it's original angle
-    public void OnCollisionExit2D(Collision2D other)
-    {
-        Debug.Log("Fell from an obstacle!!");
-        isGrounded = false;
-        mPlayer.rotation = NormRotation;
-    }
-
     // +++++++++++++ need to be executed
     public void OnTriggerEnter2D(Collider2D other) 
-    {    
+    {
+        Debug.Log("Entered!");
+        if (other.CompareTag("Obstacle"))
+        {
+            velocity_Y = 0;
+            Debug.Log("Ouch!");
+            isGrounded = false;
+        } 
+        else if (other.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            velocity_Y = 0; // do i need this?
+            mPlayer.rotation = other.transform.rotation;
+            Debug.Log("Touched an obstacle!! " + mPlayer.rotation.z);
+        }
+        else if (other.CompareTag("Ball"))
+        {
+            //Check if the trigger is a ball trigger or cat  
+            //Update the game controller that you have the ball? 
+            IsHoldingBall = true;
+            Debug.Log("Got the ball!");
+        }
+    }
 
-        //Check if the trigger is a ball trigger or cat  
-        //Update the game controller that you have the ball? 
-        IsHoldingBall = true;
-        Debug.Log("Got the ball!");
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Obstacle"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            Debug.Log("Fell from an obstacle!!");
+            isGrounded = false;
+            mPlayer.rotation = NormRotation;
+        }
     }
 }
