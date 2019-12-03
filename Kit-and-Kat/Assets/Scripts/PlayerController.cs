@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
                 ball.constraints = RigidbodyConstraints2D.None;
                 ball.transform.parent = null;
                 ball.GetComponent<BallController>().Release();
-                ball.GetComponent<BallController>().Kick();
+                ball.GetComponent<BallController>().Kick(Mathf.Deg2Rad * 45);
             }
             return;
         }

@@ -58,7 +58,7 @@ public class BallController : MonoBehaviour
         }
     }
 
-    public void Kick()
+    public void Kick(float angle)
     {
         isHeldByCat = false;
         GetComponent<Collider2D>().enabled = true;
@@ -66,7 +66,9 @@ public class BallController : MonoBehaviour
         Physics2D.IgnoreLayerCollision(8, 9);
         Physics2D.IgnoreLayerCollision(8, 10);
         isKicked = true;
-        rb.AddForce(Vector2.up * mKickForce, ForceMode2D.Impulse);
+        float ax = Mathf.Cos(angle);
+        float ay = Mathf.Sin(angle);
+        rb.AddForce(new Vector2(ax, ay) * mKickForce, ForceMode2D.Impulse);
     }
 
     public void Hold()
