@@ -421,12 +421,12 @@ PrefabInstance:
     - target: {fileID: 8207848519319238515, guid: fd1fd3eae67563849a6bbf09dca84dd7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.58
+      value: 5.13
       objectReference: {fileID: 0}
     - target: {fileID: 8207848519319238515, guid: fd1fd3eae67563849a6bbf09dca84dd7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.67
+      value: 2.79
       objectReference: {fileID: 0}
     - target: {fileID: 8207848519319238515, guid: fd1fd3eae67563849a6bbf09dca84dd7,
         type: 3}
@@ -689,10 +689,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1533925942, guid: c0d7afa3aa801f0478b162d825bb5782, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0d7afa3aa801f0478b162d825bb5782, type: 3}
 --- !u!1001 &4001480558244026387
@@ -706,11 +702,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ball
-      objectReference: {fileID: 0}
-    - target: {fileID: 4001480557058608553, guid: de9fcc1636f7a2949a8635cddb90177c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4001480557058608557, guid: de9fcc1636f7a2949a8635cddb90177c,
         type: 3}

@@ -23,16 +23,14 @@ public class BallController : MonoBehaviour
     void Update()
     {
         Damage();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Kick();
-        }
         if (isKicked)
         {
             if (rb.velocity.y <= 0)
             {
+                GetComponent<Collider2D>().enabled = true;
                 isKicked = false;
                 Physics2D.IgnoreLayerCollision(8, 9, false);
+                Physics2D.IgnoreLayerCollision(8, 10, false);
             }
         }
         // TODO: remove
@@ -60,11 +58,24 @@ public class BallController : MonoBehaviour
         }
     }
 
-    private void Kick()
+    public void Kick()
     {
+        isHeldByCat = false;
+        GetComponent<Collider2D>().enabled = true;
         if (isKicked) return;
         Physics2D.IgnoreLayerCollision(8, 9);
+        Physics2D.IgnoreLayerCollision(8, 10);
         isKicked = true;
         rb.AddForce(Vector2.up * mKickForce, ForceMode2D.Impulse);
+    }
+
+    public void Hold()
+    {
+        isHeldByCat = true;
+    }
+
+    public void Release()
+    {
+        isHeldByCat = false;
     }
 }

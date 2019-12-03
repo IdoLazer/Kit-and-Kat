@@ -37,7 +37,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-//        float xValue = 0;
+        if(IsHoldingBall)
+        {
+            if (Input.GetKeyDown(mThrowKey))
+            {
+                IsHoldingBall = false;
+                ball.isKinematic = false;
+                ball.constraints = RigidbodyConstraints2D.None;
+                ball.transform.parent = null;
+                ball.GetComponent<BallController>().Release();
+                ball.GetComponent<BallController>().Kick();
+            }
+            return;
+        }
+        //        float xValue = 0;
         if (Input.GetKey(mRightKey))
         {
             mPlayer.transform.Translate(Vector2.right * (mPlayerSpeed * Time.deltaTime));
@@ -47,7 +60,7 @@ public class PlayerController : MonoBehaviour
             mPlayer.transform.Translate(Vector2.left * (mPlayerSpeed * Time.deltaTime));
         }
 
-        if (Input.GetKey(mUpKey) && isGrounded)
+        if (Input.GetKeyDown(mUpKey) && isGrounded)
         {
             velocity_Y = jumpForce;
             isGrounded = false;
@@ -69,24 +82,11 @@ public class PlayerController : MonoBehaviour
                 velocity_Y += gravity * Time.deltaTime;
             }
         }
-        
-        
-        
-        // Throwing the ball +++++++++++++ need to be executed
-        if (Input.GetKey(mThrowKey))
-        {
-            if (IsHoldingBall)
-            {
-                IsHoldingBall = false;
-                // throw the ball
-            }
-        }
     }
 
     // +++++++++++++ need to be executed
     public void OnTriggerEnter2D(Collider2D other) 
     {
-        Debug.Log("Entered!");
         if (other.CompareTag("Obstacle"))
         {
             velocity_Y = 0;
@@ -105,7 +105,13 @@ public class PlayerController : MonoBehaviour
             //Check if the trigger is a ball trigger or cat  
             //Update the game controller that you have the ball? 
             IsHoldingBall = true;
-            Debug.Log("Got the ball!");
+            other.transform.parent = this.transform;
+            other.transform.position = transform.position;
+            other.enabled = false;
+            ball = other.GetComponent<Rigidbody2D>();
+            ball.constraints = RigidbodyConstraints2D.FreezeAll;
+            ball.isKinematic = true;
+            ball.GetComponent<BallController>().Hold();
         }
     }
 
